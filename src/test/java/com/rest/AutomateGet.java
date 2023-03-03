@@ -24,5 +24,4 @@ public class AutomateGet {
                 statusCode(200);
     }
 
-
 }
