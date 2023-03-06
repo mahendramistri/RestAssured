@@ -22,6 +22,7 @@ public class AutomateGet {
                 log().all().
                 assertThat().
                 statusCode(200);
-    }
 
+
+    }
 }
