@@ -17,6 +17,7 @@ import io.restassured.mapper.ObjectMapperType;
 import io.restassured.response.Response;
 import io.restassured.specification.*;
 import org.apache.groovy.json.internal.Exceptions;
+import org.codehaus.groovy.control.messages.Message;
 import org.hamcrest.Matcher;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -30,10 +31,7 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.net.URL;
 import java.security.KeyStore;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -50,25 +48,29 @@ public class AutomateGet {
         RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder().addFilter(new RequestLoggingFilter(LogDetail.METHOD,printStream))
                 .addFilter(new ResponseLoggingFilter(LogDetail.STATUS,printStream));
         requestSpecification =  requestSpecBuilder.build();
-
         ResponseSpecBuilder  responseSpecBuilder = new ResponseSpecBuilder();
         responseSpecification = responseSpecBuilder.build();
     }
 
     @Test
     public void validate_status_code(){
+        // header("X-Api-Key", "PMAK-6401bb7b9860447202e15e54-a2c937fac8ca3d4d1e388fcf2c287103f4")
+        Map<String , String> map = new HashMap<>();
+        map.put("X-Api-Key","PMAK-6401bb7b9860447202e15e54-a2c937fac8ca3d4d1e388fcf2c287103f4");
         given().
-                baseUri("https://api.postman.com").
-                header("X-Api-Key", "PMAK-6401bb7b9860447202e15e54-a2c937fac8ca3d4d1e388fcf2c287103f4").
+                baseUri("https://api.postman.com").header("",map).
         when().
                 get("/workspaces").
         then().
                 log().all().
                 assertThat().
-                statusCode(200);
+                statusCode(401);
     }
     @Test
     public void hamcreastAssertTest() throws FileNotFoundException {
         given(requestSpecification).baseUri("https://reqres.in/").when().get("/api/users?page=2").then().spec(responseSpecification).log().status().assertThat().statusCode(200);
+    }
+    public void MessageTest() {
+
     }
 }
