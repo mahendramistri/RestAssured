@@ -10,4 +10,6 @@ public class LombokStudentTest {
         System.out.println(student.getSttudentId()+" "+student.getStudentName());
 
     }
+
+
 }

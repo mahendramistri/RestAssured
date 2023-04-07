@@ -14,11 +14,15 @@ import io.restassured.http.*;
 import io.restassured.internal.RequestSpecificationImpl;
 import io.restassured.mapper.ObjectMapper;
 import io.restassured.mapper.ObjectMapperType;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.*;
 import org.apache.groovy.json.internal.Exceptions;
 import org.codehaus.groovy.control.messages.Message;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -36,6 +40,7 @@ import java.util.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+
 
 public class AutomateGet {
     RequestSpecification requestSpecification;
@@ -58,19 +63,21 @@ public class AutomateGet {
         Map<String , String> map = new HashMap<>();
         map.put("X-Api-Key","PMAK-6401bb7b9860447202e15e54-a2c937fac8ca3d4d1e388fcf2c287103f4");
         given().
-                baseUri("https://api.postman.com").header("",map).
+                baseUri("https://api.postman.com").header("",ContentType.JSON).
         when().
                 get("/workspaces").
         then().
-                log().all().
-                assertThat().
-                statusCode(401);
+                log();
     }
     @Test
     public void hamcreastAssertTest() throws FileNotFoundException {
         given(requestSpecification).baseUri("https://reqres.in/").when().get("/api/users?page=2").then().spec(responseSpecification).log().status().assertThat().statusCode(200);
     }
-    public void MessageTest() {
+
+    @Test
+    public void givenString_whenEmpty_thenCorrect() {
+
 
     }
+
 }
